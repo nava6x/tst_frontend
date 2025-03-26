@@ -46,7 +46,9 @@ function App() {
             };
 
             // Important:  Set withCredentials: true to send cookies with the request.
-            const res = await axios.post('https://test-server-0p54.onrender.com', requestData);
+            const res = await axios.post('https://test-server-0p54.onrender.com', requestData, {
+                withCredentials: true,
+            });
 
             setMessage(res.data.msg);
 
@@ -63,6 +65,20 @@ function App() {
         }
     };
 
+    const testRequest = async () => {
+        try {
+            const requestData = {
+                bfg: fingerprint,
+                rid: requestID,
+                clientSessionId: clientSessionId // Include clientSessionId
+            };
+            const res = await axios.post('https://test-server-0p54.onrender.com/test', requestData);
+            setMessage(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div>
             <p>Fingerprint: {fingerprint}</p>
@@ -70,6 +86,7 @@ function App() {
             <p>Client Session ID: {clientSessionId}</p> // Client Session ID
             <p>Response: {message}</p>
             <button onClick={sendRequest}>Send Request</button>
+            <button onClick={testRequest}>TestRequest</button>
         </div>
     );
 }
